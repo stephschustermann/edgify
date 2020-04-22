@@ -1,12 +1,32 @@
-import React from 'react';
-import './App.css';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Container from 'react-bootstrap/Container';
 
-function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
+import StartGame from './components/start_game';
+import Game from './components/game';
+import GameOver from './components/game_over';
+
+class App extends Component {
+  render(){
+    return (
+      <Container className="App">
+        {
+          (this.props.emptyGame)
+          ? (<StartGame />) 
+          : (this.props.isGameOver)
+          ? (<GameOver/>)
+          : (<Game />)
+        }
+      </Container>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    emptyGame: state.game.emptyGame,
+    isGameOver: state.game.isGameOver,
+  }
+}
+
+export default connect(mapStateToProps, null)(App);
